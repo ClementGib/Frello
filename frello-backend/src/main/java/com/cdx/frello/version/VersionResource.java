@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VersionResource {
 
-    VersionService versionService;
+    private final VersionService versionService;
 
     @Autowired
     VersionResource(VersionService versionService) {
@@ -17,6 +17,9 @@ public class VersionResource {
     @GetMapping("/version")
     public String getVersion() {
         final String version = versionService.getVersion();
-        return version == null ? "local" : version;
+        if (version == null) {
+            return "local";
+        }
+        return version;
     }
 }
